@@ -12,10 +12,10 @@ Imports System.Windows
 ' Review the values of the assembly attributes
 
 <Assembly: AssemblyTitle("RevokeChinaCertGUI")> 
-<Assembly: AssemblyDescription("")> 
-<Assembly: AssemblyCompany("")> 
+<Assembly: AssemblyDescription("GUI Version of chengr28/RevokeChinaCerts")> 
+<Assembly: AssemblyCompany("Elepover")> 
 <Assembly: AssemblyProduct("RevokeChinaCertGUI")> 
-<Assembly: AssemblyCopyright("Copyright ©  2018")> 
+<Assembly: AssemblyCopyright("Copyright © 2018 Elepover")> 
 <Assembly: AssemblyTrademark("")> 
 <Assembly: ComVisible(false)>
 

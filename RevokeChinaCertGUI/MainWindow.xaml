@@ -23,7 +23,8 @@
                     <TextBlock HorizontalAlignment="Left" Margin="0,40,0,0" TextWrapping="Wrap" Text="Certificates: " FontSize="14" VerticalAlignment="Top"/>
                     <TextBlock x:Name="TextBlock_RCC_Certificates" HorizontalAlignment="Left" Margin="0,59,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top"/>
                 </Grid>
-
+                <Controls:MetroProgressBar x:Name="ProgressBar_Main" Margin="10,0,10,48" VerticalAlignment="Bottom" Height="23"/>
+                <Button x:Name="Button_DownloadRCC" Content="GET/UPDATE REVOKECHINACERTS" Margin="0,0,10,10" Height="27" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="190"/>
             </Grid>
         </TabItem>
         <TabItem x:Name="TabItem_Revoking" Header="Revoking">
@@ -38,11 +39,12 @@
                 <Controls:ProgressRing x:Name="ProgressRing_Revoke" HorizontalAlignment="Left" Margin="10,0,0,10" VerticalAlignment="Bottom" Height="30" Width="30"/>
                 <TextBlock x:Name="TextBlock_Status_Revoke" HorizontalAlignment="Left" Margin="45,0,0,10" TextWrapping="Wrap" Text="Processing..." FontSize="14" Height="19" VerticalAlignment="Bottom"/>
                 <Controls:MetroProgressBar x:Name="ProgressBar_Revoke" Margin="10,0,10,48" VerticalAlignment="Bottom" Height="23"/>
-
+                <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="1" Margin="10,94,0,0" VerticalAlignment="Top" Width="570"/>
+                <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="1" Margin="10,155,0,0" VerticalAlignment="Top" Width="570"/>
             </Grid>
         </TabItem>
         <TabItem x:Name="TabItem_About" Header="About">
-            <TextBlock Text="Copyright (C) 2018 Elepover.&#x0a;&#x0a;This program is free software: you can redistribute it and/or modify&#x0a;it under the terms of the GNU General Public License as published by&#x0a;the Free Software Foundation, either version 3 of the License, or&#x0a;(at your option) any later version.&#x0a;&#x0a;This program is distributed in the hope that it will be useful,&#x0a;but WITHOUT ANY WARRANTY; without even the implied warranty of&#x0a;MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the&#x0a;GNU General Public License for more details.&#x0a;&#x0a;You should have received a copy of the GNU General Public License&#x0a;along with this program.  If not, see https://www.gnu.org/licenses." ScrollViewer.HorizontalScrollBarVisibility="Hidden" ScrollViewer.VerticalScrollBarVisibility="Visible" Margin="10,10,10,10"></TextBlock>
+            <TextBox IsReadOnly="True" Text="Copyright (C) 2018 Elepover.&#x0a;&#x0a;This program is free software: you can redistribute it and/or modify&#x0a;it under the terms of the GNU General Public License as published by&#x0a;the Free Software Foundation, either version 3 of the License, or&#x0a;(at your option) any later version.&#x0a;&#x0a;This program is distributed in the hope that it will be useful,&#x0a;but WITHOUT ANY WARRANTY; without even the implied warranty of&#x0a;MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the&#x0a;GNU General Public License for more details.&#x0a;&#x0a;You should have received a copy of the GNU General Public License&#x0a;along with this program.  If not, see https://www.gnu.org/licenses." ScrollViewer.HorizontalScrollBarVisibility="Hidden" ScrollViewer.VerticalScrollBarVisibility="Visible" Margin="10,10,10,10"></TextBox>
         </TabItem>
     </Controls:MetroAnimatedTabControl>
 

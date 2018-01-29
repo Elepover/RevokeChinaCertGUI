@@ -2,8 +2,15 @@
 Imports System.Threading
 Imports System.Windows.Threading
 Imports System.Security.Principal
+Imports System.IO.Compression
+Imports System.Net
 
 Class MainWindow
+    ''' <summary>
+    ''' RCC Downloader
+    ''' </summary>
+    ''' <remarks></remarks>
+    Friend WithEvents RCCDL As New WebClient()
     ''' <summary>
     ''' Has the Shown() event already been raised once?
     ''' </summary>
@@ -51,6 +58,8 @@ Class MainWindow
         Grid_Status.Visibility = Windows.Visibility.Hidden
         ProgressRing_Revoke.Visibility = Windows.Visibility.Hidden
         ProgressBar_Revoke.Visibility = Windows.Visibility.Hidden
+        ProgressBar_Main.Visibility = Windows.Visibility.Hidden
+        Button_DownloadRCC.Visibility = Windows.Visibility.Hidden
         TextBlock_Status_Revoke.Visibility = Windows.Visibility.Hidden
     End Sub
 
@@ -96,6 +105,7 @@ NoRccRepo:
             Grid_Status.Visibility = Windows.Visibility.Visible
             TabItem_Revoking.Visibility = Windows.Visibility.Visible
             TabItem_About.Visibility = Windows.Visibility.Visible
+            Button_DownloadRCC.Visibility = Windows.Visibility.Visible
         Catch ex As Exception
             TextBlock_Status.Text = "Error while loading: " & ex.Message
         End Try
@@ -281,12 +291,70 @@ NoRccRepo:
             End While
 
             TextBlock_Status_Revoke.Text = "Cleaning up..."
-            My.Computer.FileSystem.DeleteDirectory(SWUObj.FullName, FileIO.DeleteDirectoryOption.DeleteAllContents)
-            My.Computer.FileSystem.DeleteDirectory(GWUObj.FullName, FileIO.DeleteDirectoryOption.DeleteAllContents)
+            Try
+                My.Computer.FileSystem.DeleteDirectory(SWUObj.FullName, FileIO.DeleteDirectoryOption.DeleteAllContents)
+                My.Computer.FileSystem.DeleteDirectory(GWUObj.FullName, FileIO.DeleteDirectoryOption.DeleteAllContents)
+            Catch ex As Exception
+            End Try
         Catch ex As Exception
             MessageBox.Show("Error: " & ex.ToString, "RevokeChinaCertsGUI", MessageBoxButton.OK, MessageBoxImage.Error)
         Finally
             Post_Revoke()
         End Try
+    End Sub
+
+    Private Sub Button_DownloadRCC_Click(sender As Object, e As RoutedEventArgs) Handles Button_DownloadRCC.Click
+        'Pre-disable
+        TabItem_Revoking.Visibility = Windows.Visibility.Hidden
+        Button_DownloadRCC.IsEnabled = False
+        TextBlock_Status.Visibility = Windows.Visibility.Visible
+        ProgressRing_Default.Visibility = Windows.Visibility.Visible
+        ProgressBar_Main.Visibility = Windows.Visibility.Visible
+        Try
+            TextBlock_Status.Text = "Removing old RevokeChinaCerts Repository..."
+            Try
+                My.Computer.FileSystem.DeleteDirectory(Path.Combine(AppPath, "RevokeChinaCerts"), FileIO.DeleteDirectoryOption.DeleteAllContents)
+            Catch ex As Exception
+            End Try
+            TextBlock_Status.Text = "Downloading RevokeChinaCerts..."
+            RCCDL.Headers.Add(HttpRequestHeader.UserAgent, "Mozilla/5.0 (Windows NT 10.0; WOW64) MSNET_WebClient/4.5 RevokeChinaCertGUI/1.0")
+            RCCDL.DownloadFileAsync(New Uri("https://github.com/chengr28/RevokeChinaCerts/archive/master.zip"), Path.Combine(AppPath, "RCC.zip"))
+        Catch ex As Exception
+            MessageBox.Show("Error: " & ex.ToString, "RevokeChinaCertsGUI", MessageBoxButton.OK, MessageBoxImage.Error)
+            TabItem_Revoking.Visibility = Windows.Visibility.Visible
+            Button_DownloadRCC.IsEnabled = True
+            TextBlock_Status.Visibility = Windows.Visibility.Hidden
+            ProgressRing_Default.Visibility = Windows.Visibility.Hidden
+            ProgressBar_Main.Visibility = Windows.Visibility.Hidden
+        End Try
+    End Sub
+
+    Private Sub RCCDL_DownloadFileCompleted(sender As Object, e As ComponentModel.AsyncCompletedEventArgs) Handles RCCDL.DownloadFileCompleted
+        Try
+            TextBlock_Status.Text = "Extracting..."
+            Wait(0.5)
+            ZipFile.ExtractToDirectory(Path.Combine(AppPath, "RCC.zip"), AppPath)
+            TextBlock_Status.Text = "Finalizing..."
+            Wait(0.5)
+            Directory.Move(Path.Combine(AppPath, "RevokeChinaCerts-master"), Path.Combine(AppPath, "RevokeChinaCerts"))
+        Catch ex As Exception
+            MessageBox.Show("Error: " & ex.ToString, "RevokeChinaCertsGUI", MessageBoxButton.OK, MessageBoxImage.Error)
+        Finally
+            Dim proc As New Process
+            With proc.StartInfo
+                .UseShellExecute = True
+                .Verb = "runas"
+                .FileName = Reflection.Assembly.GetExecutingAssembly.Location
+                .Arguments = Process.GetCurrentProcess.StartInfo.Arguments
+            End With
+            proc.Start()
+            Application.Current.Shutdown(0)
+        End Try
+    End Sub
+
+    Private Sub RCCDL_DownloadProgressChanged(sender As Object, e As DownloadProgressChangedEventArgs) Handles RCCDL.DownloadProgressChanged
+        TextBlock_Status.Text = "Downloading RevokeChinaCerts(" & Math.Round((e.BytesReceived / e.TotalBytesToReceive) * 100, 2) & "%)..."
+        ProgressBar_Main.Maximum = CInt(e.TotalBytesToReceive / 10000)
+        ProgressBar_Main.Value = CInt(e.BytesReceived / 10000)
     End Sub
 End Class
