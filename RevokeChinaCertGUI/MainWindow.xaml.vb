@@ -47,6 +47,7 @@ Class MainWindow
 
     Private Sub MainWindow_Loaded(sender As Object, e As RoutedEventArgs) Handles Me.Loaded
         TabItem_Revoking.Visibility = Windows.Visibility.Hidden
+        TabItem_About.Visibility = Windows.Visibility.Hidden
         Grid_Status.Visibility = Windows.Visibility.Hidden
         ProgressRing_Revoke.Visibility = Windows.Visibility.Hidden
         ProgressBar_Revoke.Visibility = Windows.Visibility.Hidden
@@ -94,6 +95,7 @@ NoRccRepo:
             TextBlock_Status.Visibility = Windows.Visibility.Hidden
             Grid_Status.Visibility = Windows.Visibility.Visible
             TabItem_Revoking.Visibility = Windows.Visibility.Visible
+            TabItem_About.Visibility = Windows.Visibility.Visible
         Catch ex As Exception
             TextBlock_Status.Text = "Error while loading: " & ex.Message
         End Try
@@ -107,6 +109,7 @@ NoRccRepo:
         ToggleSwitch_Other.IsEnabled = False
         Button_Certmgr.IsEnabled = False
         Button_Revoke.IsEnabled = False
+        Button_Update.IsEnabled = False
         ProgressRing_Revoke.Visibility = Windows.Visibility.Visible
         ProgressBar_Revoke.Visibility = Windows.Visibility.Visible
         TextBlock_Status_Revoke.Visibility = Windows.Visibility.Visible
@@ -117,6 +120,7 @@ NoRccRepo:
         ToggleSwitch_Other.IsEnabled = True
         Button_Certmgr.IsEnabled = True
         Button_Revoke.IsEnabled = True
+        Button_Update.IsEnabled = True
         ProgressRing_Revoke.Visibility = Windows.Visibility.Hidden
         ProgressBar_Revoke.Visibility = Windows.Visibility.Hidden
         TextBlock_Status_Revoke.Visibility = Windows.Visibility.Hidden
@@ -216,7 +220,7 @@ NoRccRepo:
             Dim SWUObj As DirectoryInfo = Directory.CreateDirectory(Path.Combine(AppPath, "RevokeChinaCerts", "Windows", "Certificates", "Other", "SyncWithWU"))
             Dim GWUObj As DirectoryInfo = Directory.CreateDirectory(Path.Combine(AppPath, "RevokeChinaCerts", "Windows", "Certificates", "Other", "GenerateSSTFromWU"))
 
-            TextBlock_Status_Revoke.Text = "Syncing with Windows Update..."
+            TextBlock_Status_Revoke.Text = "Syncing certificates with Windows Update..."
             Dim SWUProc As New Process()
             With SWUProc.StartInfo
                 .FileName = "certutil.exe"
@@ -234,7 +238,7 @@ NoRccRepo:
             Dim GWUProc As New Process()
             With GWUProc.StartInfo
                 .FileName = "certutil.exe"
-                .Arguments = "-generateSSTFromWU" & Convert.ToChar(34) & Path.Combine(GWUObj.FullName, "AuthRoot.sst") & Convert.ToChar(34)
+                .Arguments = "-generateSSTFromWU " & Convert.ToChar(34) & Path.Combine(GWUObj.FullName, "AuthRoot.sst") & Convert.ToChar(34)
                 .CreateNoWindow = True
                 .UseShellExecute = False
                 .WindowStyle = ProcessWindowStyle.Hidden
@@ -244,7 +248,41 @@ NoRccRepo:
                 Wait(0.1)
             End While
 
-            TextBlock_Status_Revoke.Text = ""
+            TextBlock_Status_Revoke.Text = "Preparing..."
+            Dim AutoRootSST As New FileInfo(Path.Combine(GWUObj.FullName, "AuthRoot.sst"))
+            Dim PinRulesSST As String = Path.Combine(SWUObj.FullName, "pinrules.sst")
+
+            TextBlock_Status_Revoke.Text = "Applying AutoRoot..."
+            Dim ARSSTProc As New Process()
+            With ARSSTProc.StartInfo
+                .FileName = Path.Combine(AppPath, "RevokeChinaCerts", "Windows", "Tools", "CertMgr.exe")
+                .Arguments = "-add -all -c " & Convert.ToChar(34) & AutoRootSST.FullName & Convert.ToChar(34) & " -s -r localMachine AuthRoot"
+                .CreateNoWindow = True
+                .UseShellExecute = False
+                .WindowStyle = ProcessWindowStyle.Hidden
+            End With
+            ARSSTProc.Start()
+            While (ARSSTProc.HasExited = False)
+                Wait(0.1)
+            End While
+
+            TextBlock_Status_Revoke.Text = "Applying PinRules..."
+            Dim PRProc As New Process()
+            With PRProc.StartInfo
+                .FileName = Path.Combine(AppPath, "RevokeChinaCerts", "Windows", "Tools", "CertMgr.exe")
+                .Arguments = "-add -all -c " & Convert.ToChar(34) & PinRulesSST & Convert.ToChar(34) & " -s -r localMachine AuthRoot"
+                .CreateNoWindow = True
+                .UseShellExecute = False
+                .WindowStyle = ProcessWindowStyle.Hidden
+            End With
+            PRProc.Start()
+            While (PRProc.HasExited = False)
+                Wait(0.1)
+            End While
+
+            TextBlock_Status_Revoke.Text = "Cleaning up..."
+            My.Computer.FileSystem.DeleteDirectory(SWUObj.FullName, FileIO.DeleteDirectoryOption.DeleteAllContents)
+            My.Computer.FileSystem.DeleteDirectory(GWUObj.FullName, FileIO.DeleteDirectoryOption.DeleteAllContents)
         Catch ex As Exception
             MessageBox.Show("Error: " & ex.ToString, "RevokeChinaCertsGUI", MessageBoxButton.OK, MessageBoxImage.Error)
         Finally

@@ -32,12 +32,15 @@
                 <Controls:ToggleSwitch x:Name="ToggleSwitch_Other" Header="Others" OnLabel="Revoke" OffLabel="Do Not Revoke" Margin="10,156,10,0" VerticalAlignment="Top"/>
                 <Button x:Name="Button_Revoke" Content="REVOKE!" Margin="0,0,170,10" ToolTip="Revoke Selected Certificates" HorizontalAlignment="Right" Width="75" Height="27" VerticalAlignment="Bottom"/>
                 <Button x:Name="Button_Certmgr" Content="MANAGE" Margin="0,0,90,10" ToolTip="Manage Certificates" HorizontalAlignment="Right" Width="75" Height="27" VerticalAlignment="Bottom"/>
+                <Button x:Name="Button_Update" Content="UPDATE" Margin="0,0,10,10" ToolTip="Refresh Certificate Store via Windows Update" HorizontalAlignment="Right" Width="75" Height="27" VerticalAlignment="Bottom"/>
                 <Controls:ProgressRing x:Name="ProgressRing_Revoke" HorizontalAlignment="Left" Margin="10,0,0,10" VerticalAlignment="Bottom" Height="30" Width="30"/>
                 <TextBlock x:Name="TextBlock_Status_Revoke" HorizontalAlignment="Left" Margin="45,0,0,10" TextWrapping="Wrap" Text="Processing..." FontSize="14" Height="19" VerticalAlignment="Bottom"/>
                 <Controls:MetroProgressBar x:Name="ProgressBar_Revoke" Margin="10,0,10,48" VerticalAlignment="Bottom" Height="23"/>
-                <Button x:Name="Button_Update" Content="UPDATE" Margin="0,0,10,10" ToolTip="Refresh Certificate Store via Windows Update" HorizontalAlignment="Right" Width="75" Height="27" VerticalAlignment="Bottom"/>
 
             </Grid>
+        </TabItem>
+        <TabItem x:Name="TabItem_About" Header="About">
+            
         </TabItem>
     </Controls:MetroAnimatedTabControl>
 
