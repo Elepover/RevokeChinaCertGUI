@@ -1,0 +1,44 @@
+﻿<Controls:MetroWindow x:Name="MainWindow" x:Class="MainWindow"
+                      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                      xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+                      xmlns:Dialogs="clr-namespace:MahApps.Metro.Controls.Dialogs;assembly=MahApps.Metro"
+                      Title="RevokeChinaCertsGUI"
+                      GlowBrush="{DynamicResource AccentColorBrush}"
+                      BorderBrush="{DynamicResource AccentColorBrush}"
+                      BorderThickness="1"
+                      WindowStartupLocation="CenterScreen"
+                      Height="600"
+                      Width="800">
+    <Controls:MetroAnimatedTabControl>
+        <TabItem x:Name="TabItem_Main" Header="Main">
+            <Grid>
+                <Controls:ProgressRing x:Name="ProgressRing_Default" HorizontalAlignment="Left" Margin="10,0,0,10" VerticalAlignment="Bottom" Height="25" Width="25"/>
+                <TextBlock x:Name="TextBlock_Status" HorizontalAlignment="Left" Margin="40,0,0,10" TextWrapping="Wrap" Text="OnGoing..." FontSize="14" VerticalAlignment="Bottom"/>
+                <Grid x:Name="Grid_Status" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="267">
+                    <TextBlock HorizontalAlignment="Left" Margin="0,0,-14,0" TextWrapping="Wrap" Text="RevokeChinaCert Repository Found: " FontSize="14" VerticalAlignment="Top"/>
+                    <TextBlock x:Name="TextBlock_RCCRepo" HorizontalAlignment="Left" Margin="0,19,0,0" TextWrapping="Wrap" Text="No" VerticalAlignment="Top"/>
+                    <TextBlock HorizontalAlignment="Left" Margin="0,40,0,0" TextWrapping="Wrap" Text="Certificates: " FontSize="14" VerticalAlignment="Top"/>
+                    <TextBlock x:Name="TextBlock_RCC_Certificates" HorizontalAlignment="Left" Margin="0,59,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top"/>
+                </Grid>
+
+            </Grid>
+        </TabItem>
+        <TabItem x:Name="TabItem_Revoking" Header="Revoking">
+            <Grid>
+                <TextBlock HorizontalAlignment="Left" Margin="10,10,0,0" TextWrapping="Wrap" Text="Revoke These Certificates: " FontSize="16" FontWeight="250" VerticalAlignment="Top"/>
+                <Controls:ToggleSwitch x:Name="ToggleSwitch_CodeSigning" Header="Code Signing" OnLabel="Revoke" OffLabel="Do Not Revoke" Margin="10,34,10,0" VerticalAlignment="Top"/>
+                <Controls:ToggleSwitch x:Name="ToggleSwitch_Organization" Header="Organizations" OnLabel="Revoke" OffLabel="Do Not Revoke" Margin="10,95,10,0" VerticalAlignment="Top"/>
+                <Controls:ToggleSwitch x:Name="ToggleSwitch_Other" Header="Others" OnLabel="Revoke" OffLabel="Do Not Revoke" Margin="10,156,10,0" VerticalAlignment="Top"/>
+                <Button x:Name="Button_Revoke" Content="REVOKE!" Margin="0,0,170,10" ToolTip="Revoke Selected Certificates" HorizontalAlignment="Right" Width="75" Height="27" VerticalAlignment="Bottom"/>
+                <Button x:Name="Button_Certmgr" Content="MANAGE" Margin="0,0,90,10" ToolTip="Manage Certificates" HorizontalAlignment="Right" Width="75" Height="27" VerticalAlignment="Bottom"/>
+                <Controls:ProgressRing x:Name="ProgressRing_Revoke" HorizontalAlignment="Left" Margin="10,0,0,10" VerticalAlignment="Bottom" Height="30" Width="30"/>
+                <TextBlock x:Name="TextBlock_Status_Revoke" HorizontalAlignment="Left" Margin="45,0,0,10" TextWrapping="Wrap" Text="Processing..." FontSize="14" Height="19" VerticalAlignment="Bottom"/>
+                <Controls:MetroProgressBar x:Name="ProgressBar_Revoke" Margin="10,0,10,48" VerticalAlignment="Bottom" Height="23"/>
+                <Button x:Name="Button_Update" Content="UPDATE" Margin="0,0,10,10" ToolTip="Refresh Certificate Store via Windows Update" HorizontalAlignment="Right" Width="75" Height="27" VerticalAlignment="Bottom"/>
+
+            </Grid>
+        </TabItem>
+    </Controls:MetroAnimatedTabControl>
+
+</Controls:MetroWindow>
