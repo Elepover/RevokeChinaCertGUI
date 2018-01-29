@@ -8,8 +8,10 @@
                       BorderBrush="{DynamicResource AccentColorBrush}"
                       BorderThickness="1"
                       WindowStartupLocation="CenterScreen"
-                      Height="600"
-                      Width="800">
+                      Height="400"
+                      MinHeight="400"
+                      MinWidth="600"
+                      Width="600">
     <Controls:MetroAnimatedTabControl>
         <TabItem x:Name="TabItem_Main" Header="Main">
             <Grid>
@@ -40,7 +42,7 @@
             </Grid>
         </TabItem>
         <TabItem x:Name="TabItem_About" Header="About">
-            
+            <TextBlock Text="Copyright (C) 2018 Elepover.&#x0a;&#x0a;This program is free software: you can redistribute it and/or modify&#x0a;it under the terms of the GNU General Public License as published by&#x0a;the Free Software Foundation, either version 3 of the License, or&#x0a;(at your option) any later version.&#x0a;&#x0a;This program is distributed in the hope that it will be useful,&#x0a;but WITHOUT ANY WARRANTY; without even the implied warranty of&#x0a;MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the&#x0a;GNU General Public License for more details.&#x0a;&#x0a;You should have received a copy of the GNU General Public License&#x0a;along with this program.  If not, see https://www.gnu.org/licenses." ScrollViewer.HorizontalScrollBarVisibility="Hidden" ScrollViewer.VerticalScrollBarVisibility="Visible" Margin="10,10,10,10"></TextBlock>
         </TabItem>
     </Controls:MetroAnimatedTabControl>
 
