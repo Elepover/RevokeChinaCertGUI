@@ -115,7 +115,6 @@ NoRccRepo:
     Private Sub Pre_Revoke()
         ToggleSwitch_CodeSigning.IsEnabled = False
         ToggleSwitch_Organization.IsEnabled = False
-        ToggleSwitch_Other.IsEnabled = False
         Button_Certmgr.IsEnabled = False
         Button_Revoke.IsEnabled = False
         Button_Update.IsEnabled = False
@@ -126,7 +125,6 @@ NoRccRepo:
     Private Sub Post_Revoke()
         ToggleSwitch_CodeSigning.IsEnabled = True
         ToggleSwitch_Organization.IsEnabled = True
-ToggleSwitch_Other.IsEnabled = False
         Button_Certmgr.IsEnabled = True
         Button_Revoke.IsEnabled = True
         Button_Update.IsEnabled = True
