@@ -32,7 +32,6 @@
                 <TextBlock HorizontalAlignment="Left" Margin="10,10,0,0" TextWrapping="Wrap" Text="Revoke These Certificates: " FontSize="16" FontWeight="250" VerticalAlignment="Top"/>
                 <Controls:ToggleSwitch x:Name="ToggleSwitch_CodeSigning" Header="Code Signing" OnLabel="Revoke" OffLabel="Do Not Revoke" Margin="10,34,10,0" VerticalAlignment="Top"/>
                 <Controls:ToggleSwitch x:Name="ToggleSwitch_Organization" Header="Organizations" OnLabel="Revoke" OffLabel="Do Not Revoke" Margin="10,95,10,0" VerticalAlignment="Top"/>
-                <Controls:ToggleSwitch x:Name="ToggleSwitch_Other" Header="Others" OnLabel="Revoke" OffLabel="Do Not Revoke" Margin="10,156,10,0" VerticalAlignment="Top"/>
                 <Button x:Name="Button_Revoke" Content="REVOKE!" Margin="0,0,170,10" ToolTip="Revoke Selected Certificates" HorizontalAlignment="Right" Width="75" Height="27" VerticalAlignment="Bottom"/>
                 <Button x:Name="Button_Certmgr" Content="MANAGE" Margin="0,0,90,10" ToolTip="Manage Certificates" HorizontalAlignment="Right" Width="75" Height="27" VerticalAlignment="Bottom"/>
                 <Button x:Name="Button_Update" Content="UPDATE" Margin="0,0,10,10" ToolTip="Refresh Certificate Store via Windows Update" HorizontalAlignment="Right" Width="75" Height="27" VerticalAlignment="Bottom"/>
