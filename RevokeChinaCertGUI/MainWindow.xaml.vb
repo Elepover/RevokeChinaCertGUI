@@ -94,7 +94,6 @@ Class MainWindow
             Dim Quantity As Integer = 0
             Quantity += (New DirectoryInfo(Path.Combine(AppPath, "RevokeChinaCerts", "Windows", "Certificates", "CodeSigning"))).GetFiles().Count
             Quantity += (New DirectoryInfo(Path.Combine(AppPath, "RevokeChinaCerts", "Windows", "Certificates", "Organization"))).GetFiles().Count
-            Quantity += (New DirectoryInfo(Path.Combine(AppPath, "RevokeChinaCerts", "Windows", "Certificates", "Other"))).GetFiles().Count
             TextBlock_RCC_Certificates.Text = Quantity - 2
 
             'NO RCC REPO
@@ -127,7 +126,7 @@ NoRccRepo:
     Private Sub Post_Revoke()
         ToggleSwitch_CodeSigning.IsEnabled = True
         ToggleSwitch_Organization.IsEnabled = True
-        ToggleSwitch_Other.IsEnabled = True
+ToggleSwitch_Other.IsEnabled = False
         Button_Certmgr.IsEnabled = True
         Button_Revoke.IsEnabled = True
         Button_Update.IsEnabled = True
@@ -166,27 +165,6 @@ NoRccRepo:
                 TextBlock_Status_Revoke.Text = "Revoking Organization..."
                 ProgressBar_Revoke.Maximum = (New DirectoryInfo(Path.Combine(AppPath, "RevokeChinaCerts", "Windows", "Certificates", "Organization"))).GetFiles().Count
                 For Each Cert As FileInfo In (New DirectoryInfo(Path.Combine(AppPath, "RevokeChinaCerts", "Windows", "Certificates", "Organization"))).GetFiles()
-                    Dim CertMgr As New Process()
-                    With CertMgr.StartInfo
-                        .FileName = Path.Combine(AppPath, "RevokeChinaCerts", "Windows", "Tools", "CertMgr.exe")
-                        .Arguments = "-add -c " & Cert.FullName & " -s -r localMachine Disallowed"
-                        .CreateNoWindow = True
-                        .UseShellExecute = False
-                        .WindowStyle = ProcessWindowStyle.Hidden
-                    End With
-                    CertMgr.Start()
-                    While (CertMgr.HasExited = False)
-                        Wait(0.1)
-                    End While
-                    Index += 1
-                    ProgressBar_Revoke.Value = Index
-                Next
-            End If
-            If ToggleSwitch_Other.IsChecked Then
-                Dim Index As Integer = 0
-                TextBlock_Status_Revoke.Text = "Revoking Other..."
-                ProgressBar_Revoke.Maximum = (New DirectoryInfo(Path.Combine(AppPath, "RevokeChinaCerts", "Windows", "Certificates", "Other"))).GetFiles().Count
-                For Each Cert As FileInfo In (New DirectoryInfo(Path.Combine(AppPath, "RevokeChinaCerts", "Windows", "Certificates", "Other"))).GetFiles()
                     Dim CertMgr As New Process()
                     With CertMgr.StartInfo
                         .FileName = Path.Combine(AppPath, "RevokeChinaCerts", "Windows", "Tools", "CertMgr.exe")
