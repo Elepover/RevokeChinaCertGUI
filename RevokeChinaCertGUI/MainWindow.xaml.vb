@@ -294,7 +294,7 @@ NoRccRepo:
             End Try
             TextBlock_Status.Text = "Downloading RevokeChinaCerts..."
             RCCDL.Headers.Add(HttpRequestHeader.UserAgent, "Mozilla/5.0 (Windows NT 10.0; WOW64) MSNET_WebClient/4.5 RevokeChinaCertGUI/1.0")
-            RCCDL.DownloadFileAsync(New Uri("https://github.com/chengr28/RevokeChinaCerts/archive/master.zip"), Path.Combine(AppPath, "RCC.zip"))
+            RCCDL.DownloadFileAsync(New Uri("https://github.com/chengr28/RevokeChinaCerts/releases/download/v0.1.0.2/RevokeChinaCerts-0.1.0.2-bin.zip"), Path.Combine(AppPath, "RCC.zip"))
         Catch ex As Exception
             MessageBox.Show("Error: " & ex.ToString, "RevokeChinaCertsGUI", MessageBoxButton.OK, MessageBoxImage.Error)
             TabItem_Revoking.Visibility = Windows.Visibility.Visible
@@ -312,7 +312,7 @@ NoRccRepo:
             ZipFile.ExtractToDirectory(Path.Combine(AppPath, "RCC.zip"), AppPath)
             TextBlock_Status.Text = "Finalizing..."
             Wait(0.5)
-            Directory.Move(Path.Combine(AppPath, "RevokeChinaCerts-master"), Path.Combine(AppPath, "RevokeChinaCerts"))
+            Directory.Move(Path.Combine(AppPath, "RevokeChinaCerts-bin"), Path.Combine(AppPath, "RevokeChinaCerts"))
         Catch ex As Exception
             MessageBox.Show("Error: " & ex.ToString, "RevokeChinaCertsGUI", MessageBoxButton.OK, MessageBoxImage.Error)
         Finally
